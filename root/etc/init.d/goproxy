@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+CONFIG="goproxy"
+PROG=/usr/bin/proxy
+PIDFILE=/var/run/proxy.pid
+
+start() {
+    config_load "$CONFIG"
+    config_foreach start_goproxy_instance main
+}
+
+start_goproxy_instance() {
+    local section="$1"
+    local enable param_mode custom_args
+    config_get enable "$section" enable "0"
+    config_get param_mode "$section" param_mode "default"
+    config_get custom_args "$section" custom_args ""
+
+    [ "$enable" = "1" ] || return 1
+
+    local ARGS
+    if [ "$param_mode" = "custom" ] && [ -n "$custom_args" ]; then
+        ARGS="$custom_args"
+    else
+        ARGS="--daemon --forever --listen :8080"
+    fi
+
+    [ -f "$PROG" ] || return 1
+
+    echo "Starting goproxy: $PROG $ARGS"
+    start-stop-daemon -S -x "$PROG" -p "$PIDFILE" -- $ARGS
+}
+
+stop() {
+    killall proxy
+    killall proxy
+    rm -f "$PIDFILE"
+}

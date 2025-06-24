@@ -1,0 +1,5 @@
+config main
+        option param_mode 'custom'
+        option custom_args 'http -t tcp -p :8888 -P 127.0.0.1:80 -T tcp --daemon --forever'
+        option enable '0'
+		

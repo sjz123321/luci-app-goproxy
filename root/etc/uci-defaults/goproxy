@@ -1,0 +1,5 @@
+#!/bin/sh
+
+chmod 777 /etc/goproxy/*
+chmod 777 /etc/init.d/goproxy
+exit 0
