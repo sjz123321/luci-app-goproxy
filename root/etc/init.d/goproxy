@@ -7,6 +7,7 @@ PROG=/usr/bin/proxy
 PIDFILE=/var/run/proxy.pid
 
 start() {
+    sleep 3
     config_load "$CONFIG"
     config_foreach start_goproxy_instance main
 }
