@@ -16,6 +16,10 @@ local function get_goproxy_status()
 end
 
 m = Map("goproxy", translate("Goproxy 设置"))
+m.apply_on_parse = true
+function m.on_after_commit(self)
+    luci.sys.call("/etc/init.d/goproxy restart >/dev/null 2>&1")
+end
 
 s = m:section(TypedSection, "main", translate("基础设置"))
 s.anonymous = true

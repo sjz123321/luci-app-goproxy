@@ -30,7 +30,7 @@ start_goproxy_instance() {
     [ -f "$PROG" ] || return 1
 
     echo "Starting goproxy: $PROG $ARGS"
-    start-stop-daemon -S -x "$PROG" -p "$PIDFILE" -- $ARGS
+    start-stop-daemon -S -x "$PROG" -p "$PIDFILE" -- $ARGS &
 }
 
 stop() {
